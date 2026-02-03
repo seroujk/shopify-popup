@@ -1,0 +1,203 @@
+{% comment %}
+  TXT Popup (Section)
+  - Renders hidden modal markup (no CLS)
+  - Loads scoped CSS/JS assets
+  - Passes configuration via data-* attributes
+{% endcomment %}
+
+{% if section.settings.enabled %}
+    {{ 'txt-popup.css' | asset_url | stylesheet_tag }}
+  
+    <section
+      class="txtp"
+      data-txtp-root
+      data-txtp-id="{{ section.id }}"
+      data-enabled="{{ section.settings.enabled }}"
+      data-trigger-type="{{ section.settings.trigger_type }}"
+      data-delay-seconds="{{ section.settings.delay_seconds }}"
+      data-scroll-percent="{{ section.settings.scroll_percent }}"
+      data-exit-intent="{{ section.settings.exit_intent }}"
+      data-dismiss-ttl-days="{{ section.settings.dismiss_ttl_days }}"
+      data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
+      data-debug="{{ section.settings.debug }}"
+      aria-label="Text signup popup"
+    >
+      <div
+        class="txtp__overlay"
+        data-txtp-overlay
+        hidden
+      ></div>
+  
+      <div
+        class="txtp__dialog"
+        data-txtp-dialog
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="txtp-title-{{ section.id }}"
+        aria-describedby="txtp-desc-{{ section.id }}"
+        tabindex="-1"
+        hidden
+      >
+        <button
+          type="button"
+          class="txtp__close"
+          data-txtp-close
+          aria-label="Close popup"
+        >
+          ×
+        </button>
+  
+        {% if section.settings.image != blank %}
+          <div class="txtp__media" aria-hidden="true">
+            {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'txtp__img', alt: '' }}
+          </div>
+        {% endif %}
+  
+        <div class="txtp__content">
+          <h2 class="txtp__title" id="txtp-title-{{ section.id }}">
+            {{ section.settings.title | escape }}
+          </h2>
+  
+          {% if section.settings.body != blank %}
+            <p class="txtp__body" id="txtp-desc-{{ section.id }}">
+              {{ section.settings.body }}
+            </p>
+          {% endif %}
+  
+          <form class="txtp__form" data-txtp-form novalidate>
+            <label class="txtp__label" for="txtp-email-{{ section.id }}">
+              {{ section.settings.email_label | escape }}
+            </label>
+  
+            <div class="txtp__fieldRow">
+              <input
+                id="txtp-email-{{ section.id }}"
+                class="txtp__input"
+                data-txtp-email
+                type="email"
+                name="email"
+                autocomplete="email"
+                placeholder="{{ section.settings.email_placeholder | escape }}"
+                required
+                inputmode="email"
+              >
+              <button class="txtp__button" data-txtp-submit type="submit">
+                {{ section.settings.cta_text | escape }}
+              </button>
+            </div>
+  
+            <p class="txtp__helper" data-txtp-helper>
+              {{ section.settings.helper_text }}
+            </p>
+  
+            <p class="txtp__error" data-txtp-error role="alert" aria-live="polite" hidden></p>
+            <p class="txtp__success" data-txtp-success role="status" aria-live="polite" hidden>
+              {{ section.settings.success_text }}
+            </p>
+          </form>
+  
+          {% if section.settings.footer_note != blank %}
+            <div class="txtp__footnote">
+              {{ section.settings.footer_note }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  
+    <script src="{{ 'txt-popup.js' | asset_url }}" defer></script>
+  {% endif %}
+  
+  {% schema %}
+  {
+    "name": "TXT Popup",
+    "settings": [
+      { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+  
+      { "type": "text", "id": "title", "label": "Title", "default": "Get texts. Get first dibs." },
+      {
+        "type": "richtext",
+        "id": "body",
+        "label": "Body",
+        "default": "<p>Sign up for SMS updates, drops, and exclusive offers.</p>"
+      },
+  
+      { "type": "image_picker", "id": "image", "label": "Optional image" },
+  
+      { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
+      { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
+      { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "Sign up" },
+  
+      {
+        "type": "richtext",
+        "id": "helper_text",
+        "label": "Helper text",
+        "default": "<p>By signing up, you agree to receive emails. Unsubscribe anytime.</p>"
+      },
+      {
+        "type": "text",
+        "id": "success_text",
+        "label": "Success message",
+        "default": "You're in! Check your inbox for a confirmation."
+      },
+      {
+        "type": "richtext",
+        "id": "footer_note",
+        "label": "Footer note (optional)",
+        "default": "<p>Standard message & data rates may apply for SMS programs.</p>"
+      },
+  
+      {
+        "type": "select",
+        "id": "trigger_type",
+        "label": "Trigger type",
+        "default": "delay",
+        "options": [
+          { "value": "delay", "label": "Time delay" },
+          { "value": "scroll", "label": "Scroll percentage" },
+          { "value": "exit", "label": "Exit intent" },
+          { "value": "manual", "label": "Manual only (use JS API)" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "delay_seconds",
+        "label": "Delay (seconds)",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "scroll_percent",
+        "label": "Scroll trigger (%)",
+        "min": 5,
+        "max": 95,
+        "step": 5,
+        "default": 35
+      },
+      { "type": "checkbox", "id": "exit_intent", "label": "Enable exit intent trigger (desktop)", "default": true },
+  
+      {
+        "type": "range",
+        "id": "dismiss_ttl_days",
+        "label": "Dismiss persistence (days)",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "default": 14
+      },
+      {
+        "type": "checkbox",
+        "id": "show_once_per_ttl",
+        "label": "Show at most once per TTL (even if not dismissed)",
+        "default": true
+      },
+  
+      { "type": "checkbox", "id": "debug", "label": "Debug logging", "default": false }
+    ],
+    "presets": [{ "name": "TXT Popup" }]
+  }
+  {% endschema %}
+  
