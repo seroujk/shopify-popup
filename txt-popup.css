@@ -1,0 +1,175 @@
+/* Scoped base: everything lives under .txtp */
+.txtp {
+    position: relative;
+    z-index: 999999; /* above theme headers */
+  }
+  
+  /* overlay + dialog are hidden via [hidden] attribute: no CLS */
+  .txtp__overlay[hidden],
+  .txtp__dialog[hidden] {
+    display: none !important;
+  }
+  
+  .txtp__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+  }
+  
+  .txtp__dialog {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(920px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+  
+    background: #fff;
+    color: #111;
+    border-radius: 16px;
+    box-shadow: 0 20px 70px rgba(0,0,0,0.35);
+  
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+  }
+  
+  .txtp__media {
+    background: #f3f3f3;
+    min-height: 320px;
+  }
+  
+  .txtp__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .txtp__content {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .txtp__title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  
+  .txtp__body {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    color: rgba(0,0,0,0.75);
+  }
+  
+  .txtp__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.06);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+  }
+  
+  .txtp__close:focus-visible,
+  .txtp__button:focus-visible,
+  .txtp__input:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+  }
+  
+  .txtp__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  
+  .txtp__label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  
+  .txtp__fieldRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+  
+  .txtp__input {
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  
+  .txtp__button {
+    height: 44px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 10px;
+    background: #111;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .txtp__button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .txtp__helper {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  .txtp__error {
+    margin: 0;
+    font-size: 13px;
+    color: #b00020;
+  }
+  
+  .txtp__success {
+    margin: 0;
+    font-size: 13px;
+    color: #0b6b2a;
+  }
+  
+  .txtp__footnote {
+    margin-top: 6px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.6);
+  }
+  
+  /* Responsive: collapse to single column */
+  @media (max-width: 860px) {
+    .txtp__dialog {
+      grid-template-columns: 1fr;
+    }
+    .txtp__media {
+      min-height: 200px;
+    }
+  }
+  
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    .txtp__dialog {
+      scroll-behavior: auto;
+    }
+  }
+  
