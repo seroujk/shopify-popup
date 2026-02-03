@@ -4,11 +4,11 @@ A reusable, production-safe popup section for email signup with configurable tri
 
 ## Install
 1. Copy files into your theme:
-   - `sections/txt-popup.liquid`
-   - `assets/txt-popup.css`
-   - `assets/txt-popup.js`
+   - `sections/goodr-popup.liquid`
+   - `assets/goodr-popup.css`
+   - `assets/goodr-popup.js`
 2. In Shopify Admin → Online Store → Themes → Customize:
-   - Add section **“TXT Popup”** (typically in Theme settings / Footer group / or any template)
+   - Add section **“goodr Popup”** (typically in Theme settings / Footer group / or any template)
    - Toggle **Enable popup**
    - Configure trigger (Delay / Scroll / Exit intent / Manual)
 
@@ -17,7 +17,7 @@ A reusable, production-safe popup section for email signup with configurable tri
   - Delay: shows after `Delay (seconds)`
   - Scroll: shows after `Scroll trigger (%)`
   - Exit: desktop exit-intent (mouse leaves near top)
-  - Manual: no auto trigger; open via `window.TXTPopup[SECTION_ID].open()`
+  - Manual: no auto trigger; open via `window.goodrPopup[SECTION_ID].open()`
 - **Dismiss persistence**
   - Uses `localStorage` keyed by section id
   - TTL configurable via **Dismiss persistence (days)**
@@ -36,10 +36,10 @@ A reusable, production-safe popup section for email signup with configurable tri
 ## Integration Stub
 - Email validation runs client-side (basic regex).
 - Submit handler includes a clear stub where a real integration should live:
-  - Replace fake delay with `fetch("/apps/txt-signup", ...)` or your ESP SDK/serverless endpoint.
+  - Replace fake delay with `fetch("/apps/goodr-signup", ...)` or your ESP SDK/serverless endpoint.
 - Event logging:
   - Pushes to `window.dataLayer` if present:
-    - `txtp_impression`, `txtp_dismiss`, `txtp_submit_attempt`, `txtp_submit_success`, `txtp_submit_error`
+    - `goodrp_impression`, `goodrp_dismiss`, `goodrp_submit_attempt`, `goodrp_submit_success`, `goodrp_submit_error`
   - Optional debug logs via section setting **Debug logging**
 
 ## Assumptions / Tradeoffs

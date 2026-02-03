@@ -1,5 +1,5 @@
 (() => {
-    const ROOT_ATTR = "data-txtp-root";
+    const ROOT_ATTR = "data-goodrp-root";
   
     function nowMs() {
       return Date.now();
@@ -78,20 +78,20 @@
   
       if (lock) {
         const scrollY = window.scrollY || 0;
-        body.dataset.txtpScrollY = String(scrollY);
+        body.dataset.goodrpScrollY = String(scrollY);
         body.style.position = "fixed";
         body.style.top = `-${scrollY}px`;
         body.style.left = "0";
         body.style.right = "0";
         body.style.width = "100%";
       } else {
-        const y = Number(body.dataset.txtpScrollY || "0");
+        const y = Number(body.dataset.goodrpScrollY || "0");
         body.style.position = "";
         body.style.top = "";
         body.style.left = "";
         body.style.right = "";
         body.style.width = "";
-        delete body.dataset.txtpScrollY;
+        delete body.dataset.goodrpScrollY;
         window.scrollTo(0, y);
       }
     }
@@ -99,8 +99,8 @@
     function logEvent(root, name, payload = {}) {
       const debug = root.dataset.debug === "true";
       const base = {
-        component: "txt-popup",
-        id: root.dataset.txtpId,
+        component: "goodr-popup",
+        id: root.dataset.goodrpId,
         ts: new Date().toISOString(),
         ...payload,
       };
@@ -111,21 +111,21 @@
         window.dataLayer.push({ event: name, ...base });
       }
   
-      if (debug) console.log(`[txt-popup] ${name}`, base);
+      if (debug) console.log(`[goodr-popup] ${name}`, base);
     }
   
     function storageKey(sectionId) {
-      return `txtp:${sectionId}`;
+      return `goodrp:${sectionId}`;
     }
   
     function getState(root) {
-      const key = storageKey(root.dataset.txtpId);
+      const key = storageKey(root.dataset.goodrpId);
       const raw = localStorage.getItem(key);
       return safeJsonParse(raw, null);
     }
   
     function setState(root, state) {
-      const key = storageKey(root.dataset.txtpId);
+      const key = storageKey(root.dataset.goodrpId);
       localStorage.setItem(key, JSON.stringify(state));
     }
   
@@ -158,14 +158,14 @@
     }
   
     function initOne(root) {
-      const overlay = root.querySelector("[data-txtp-overlay]");
-      const dialog = root.querySelector("[data-txtp-dialog]");
-      const btnClose = root.querySelector("[data-txtp-close]");
-      const form = root.querySelector("[data-txtp-form]");
-      const emailEl = root.querySelector("[data-txtp-email]");
-      const submitBtn = root.querySelector("[data-txtp-submit]");
-      const errorEl = root.querySelector("[data-txtp-error]");
-      const successEl = root.querySelector("[data-txtp-success]");
+      const overlay = root.querySelector("[data-goodrp-overlay]");
+      const dialog = root.querySelector("[data-goodrp-dialog]");
+      const btnClose = root.querySelector("[data-goodrp-close]");
+      const form = root.querySelector("[data-goodrp-form]");
+      const emailEl = root.querySelector("[data-goodrp-email]");
+      const submitBtn = root.querySelector("[data-goodrp-submit]");
+      const errorEl = root.querySelector("[data-goodrp-error]");
+      const successEl = root.querySelector("[data-goodrp-success]");
   
       if (!overlay || !dialog) return;
   
@@ -187,7 +187,7 @@
         cleanupFocusTrap = trapFocus(dialog, () => hide("escape"));
   
         markShown(root);
-        logEvent(root, "txtp_impression", { source });
+        logEvent(root, "goodrp_impression", { source });
       }
   
       function hide(reason) {
@@ -203,7 +203,7 @@
         lockBodyScroll(false);
   
         markDismissed(root, reason);
-        logEvent(root, "txtp_dismiss", { reason });
+        logEvent(root, "goodrp_dismiss", { reason });
   
         if (lastActiveEl && typeof lastActiveEl.focus === "function") {
           lastActiveEl.focus();
@@ -231,13 +231,13 @@
         if (!isEmailValid(email)) {
           errorEl.textContent = "Please enter a valid email address.";
           errorEl.hidden = false;
-          logEvent(root, "txtp_submit_invalid", { email });
+          logEvent(root, "goodrp_submit_invalid", { email });
           emailEl?.focus();
           return;
         }
   
         submitBtn.disabled = true;
-        logEvent(root, "txtp_submit_attempt", { email });
+        logEvent(root, "goodrp_submit_attempt", { email });
   
         try {
           /**
@@ -251,18 +251,18 @@
           await fakeNetworkDelay(450);
   
           // Example "where the real integration would live":
-          // await fetch("/apps/txt-signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ email }) });
+          // await fetch("/apps/goodr-signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ email }) });
   
           successEl.hidden = false;
           successEl.textContent = successEl.textContent || "Thanks for signing up!";
-          logEvent(root, "txtp_submit_success", { email });
+          logEvent(root, "goodrp_submit_success", { email });
   
           // Optional: auto-close after success
           setTimeout(() => hide("success_autoclose"), 900);
         } catch (err) {
           errorEl.textContent = "Something went wrong. Please try again.";
           errorEl.hidden = false;
-          logEvent(root, "txtp_submit_error", { message: String(err?.message || err) });
+          logEvent(root, "goodrp_submit_error", { message: String(err?.message || err) });
         } finally {
           submitBtn.disabled = false;
         }
@@ -279,8 +279,8 @@
       const exitIntentEnabled = root.dataset.exitIntent === "true";
   
       // Manual API
-      window.TXTPopup = window.TXTPopup || {};
-      window.TXTPopup[root.dataset.txtpId] = {
+      window.goodrPopup = window.goodrPopup || {};
+      window.goodrPopup[root.dataset.goodrpId] = {
         open: () => show("manual"),
         close: () => hide("manual"),
       };

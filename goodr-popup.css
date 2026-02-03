@@ -1,23 +1,23 @@
-/* Scoped base: everything lives under .txtp */
-.txtp {
+/* Scoped base: everything lives under .goodrp */
+.goodrp {
     position: relative;
     z-index: 999999; /* above theme headers */
   }
   
   /* overlay + dialog are hidden via [hidden] attribute: no CLS */
-  .txtp__overlay[hidden],
-  .txtp__dialog[hidden] {
+  .goodrp__overlay[hidden],
+  .goodrp__dialog[hidden] {
     display: none !important;
   }
   
-  .txtp__overlay {
+  .goodrp__overlay {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(2px);
   }
   
-  .txtp__dialog {
+  .goodrp__dialog {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -35,39 +35,39 @@
     grid-template-columns: 1fr 1.1fr;
   }
   
-  .txtp__media {
+  .goodrp__media {
     background: #f3f3f3;
     min-height: 320px;
   }
   
-  .txtp__img {
+  .goodrp__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
   
-  .txtp__content {
+  .goodrp__content {
     padding: 28px;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
   
-  .txtp__title {
+  .goodrp__title {
     margin: 0;
     font-size: 28px;
     line-height: 1.1;
   }
   
-  .txtp__body {
+  .goodrp__body {
     margin: 0;
     font-size: 16px;
     line-height: 1.4;
     color: rgba(0,0,0,0.75);
   }
   
-  .txtp__close {
+  .goodrp__close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -81,33 +81,33 @@
     line-height: 1;
   }
   
-  .txtp__close:focus-visible,
-  .txtp__button:focus-visible,
-  .txtp__input:focus-visible {
+  .goodrp__close:focus-visible,
+  .goodrp__button:focus-visible,
+  .goodrp__input:focus-visible {
     outline: 2px solid #111;
     outline-offset: 2px;
   }
   
-  .txtp__form {
+  .goodrp__form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 6px;
   }
   
-  .txtp__label {
+  .goodrp__label {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
   
-  .txtp__fieldRow {
+  .goodrp__fieldRow {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 10px;
   }
   
-  .txtp__input {
+  .goodrp__input {
     height: 44px;
     padding: 0 12px;
     border: 1px solid rgba(0,0,0,0.18);
@@ -115,7 +115,7 @@
     font-size: 14px;
   }
   
-  .txtp__button {
+  .goodrp__button {
     height: 44px;
     padding: 0 16px;
     border: none;
@@ -126,31 +126,31 @@
     cursor: pointer;
   }
   
-  .txtp__button[disabled] {
+  .goodrp__button[disabled] {
     opacity: 0.6;
     cursor: not-allowed;
   }
   
-  .txtp__helper {
+  .goodrp__helper {
     margin: 0;
     font-size: 12px;
     line-height: 1.35;
     color: rgba(0,0,0,0.65);
   }
   
-  .txtp__error {
+  .goodrp__error {
     margin: 0;
     font-size: 13px;
     color: #b00020;
   }
   
-  .txtp__success {
+  .goodrp__success {
     margin: 0;
     font-size: 13px;
     color: #0b6b2a;
   }
   
-  .txtp__footnote {
+  .goodrp__footnote {
     margin-top: 6px;
     font-size: 12px;
     color: rgba(0,0,0,0.6);
@@ -158,17 +158,17 @@
   
   /* Responsive: collapse to single column */
   @media (max-width: 860px) {
-    .txtp__dialog {
+    .goodrp__dialog {
       grid-template-columns: 1fr;
     }
-    .txtp__media {
+    .goodrp__media {
       min-height: 200px;
     }
   }
   
   /* Reduce motion */
   @media (prefers-reduced-motion: reduce) {
-    .txtp__dialog {
+    .goodrp__dialog {
       scroll-behavior: auto;
     }
   }
