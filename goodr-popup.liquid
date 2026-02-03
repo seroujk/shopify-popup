@@ -6,7 +6,7 @@
 {% endcomment %}
 
 {% if section.settings.enabled %}
-    {{ 'txt-popup.css' | asset_url | stylesheet_tag }}
+    {{ 'goodr-popup.css' | asset_url | stylesheet_tag }}
   
     <section
       class="txtp"
@@ -105,7 +105,7 @@
       </div>
     </section>
   
-    <script src="{{ 'txt-popup.js' | asset_url }}" defer></script>
+    <script src="{{ 'goodr-popup.js' | asset_url }}" defer></script>
   {% endif %}
   
   {% schema %}
