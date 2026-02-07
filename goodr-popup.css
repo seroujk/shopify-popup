@@ -1,175 +1,254 @@
-/* Scoped base: everything lives under .goodrp */
-.goodrp {
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
+
+/* Scoped base everything lives under goodr_popup */
+.goodr_popup {
+  position: relative;
+  z-index: 99999; /* Above theme headers */
+  font-family: "League Spartan", sans-serif !important;
+  font-weight: 900;
+}
+
+.goodr_popup__content[hidden] {
+  display: none !important;
+}
+
+.goodr_popup__content {
+  position: fixed;
+  width: 484px;
+  height: 654px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 52px 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  border: 3px solid #0c2340;
+  box-shadow: -4px 4px 0 0 #0c2340;
+}
+
+.goodr_popup__close__button {
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 21.71px;
+  right: 22.96px;
+  padding: 0;
+}
+
+.goodr_popup__close__icon {
+  height: 20px;
+  width: 20px;
+}
+
+.goodr_popup__media__desktop {
+  width: 374px;
+  height: 360px;
+  border-radius: 4px !important;
+  position: relative;
+}
+
+.goodr_popup__media__mobile{
+  display: none;
+}
+
+.goodr_popup__desktop__media__image {
+  width: 374px !important;
+  height: 360px !important;
+  max-width: none !important;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px !important;
+}
+
+.goodr_popup__media__desktop__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 199.98951721191406px;
+  height: 72.21233367919922px;
+}
+
+.goodr_popup__mobile__media__image {
+  display: none;
+}
+
+.goodr_popup__media__mobile__logo {
+  display: none;
+}
+
+.goodr_popup__title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  margin-top: 20px;
+  margin-bottom: 36px;
+  letter-spacing: 0;
+  text-align: center;
+  color: #0c2340;
+  text-transform: uppercase;
+  font-family: "League Spartan", sans-serif !important;
+  font-weight: 900;
+}
+
+.goodr_popup__code {
+  color: #e06287;
+}
+
+.goodr_popup__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 374px;
+}
+
+.goodr_popup__cta__button {
+  padding: 12px 112px;
+  border: 1px solid #0C2340;
+  background: #ede939;
+  border-radius: 25px;
+  color: #ffffff;
+  box-shadow: -4px 4px 0 0 #0c2340;
+  /* button transition */
+  transition: transform 160ms ease, box-shadow 300ms ease;
+  will-change: transform, box-shadow;
+}
+
+.goodr_popup__cta__button__text {
+  width: 150px;
+  font-size: 18px;
+  font-family: "League Spartan", sans-serif !important;
+  font-weight: 900;
+  line-height: 100%;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #0c2340;
+  text-shadow: -2.75px 2.75px 0 #0c2340;
+}
+
+.goodr_popup__cta__button:hover {
+  /* button  sits on its shadow */
+  transform: translate(-4px, 4px);
+  /* shadow is now “under” the button */
+  box-shadow: 0 0 0 0 #0c2340;
+}
+
+.goodr_popup__dismissal__button {
+  background: transparent;
+  border: none;
+}
+
+.goodr_popup__dismissal__button__text {
+  color: #0c2340;
+  font-size: 18px;
+  font-family: "League Spartan", sans-serif !important;
+  font-weight: 700;
+  color: #0c2340;
+  line-height: 100%;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 0;
+  text-underline-offset: 1px;
+  text-align: center;
+}
+
+@media (max-width: 867px) {
+  .goodr_popup__content {
+    width: 326px;
+    height: 550px;
+    padding: 35px 37px;
+  }
+
+  .goodr_popup__close__button {
+    position: absolute;
+    top: 13.27px;
+    right: 14.14px;
+    padding: 0;
+  }
+
+  .goodr_popup__close__icon {
+    width: 16.16px;
+    height: 16.16px;
+  }
+
+  .goodr_popup__media__mobile {
+    width: 252px;
+    height: 342px;
+    border-radius: 4px;
     position: relative;
-    z-index: 999999; /* above theme headers */
   }
-  
-  /* overlay + dialog are hidden via [hidden] attribute: no CLS */
-  .goodrp__overlay[hidden],
-  .goodrp__dialog[hidden] {
-    display: none !important;
+
+  .goodr_popup__media__desktop{
+    display: none;
   }
-  
-  .goodrp__overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(2px);
+
+  .goodr_popup__desktop__media__image {
+    display: none;
   }
-  
-  .goodrp__dialog {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: min(920px, calc(100vw - 32px));
-    max-height: calc(100vh - 32px);
-    overflow: auto;
-  
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    box-shadow: 0 20px 70px rgba(0,0,0,0.35);
-  
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
+
+  .goodr_popup__media__desktop__logo {
+    display: none;
   }
-  
-  .goodrp__media {
-    background: #f3f3f3;
-    min-height: 320px;
-  }
-  
-  .goodrp__img {
-    width: 100%;
-    height: 100%;
+
+  .goodr_popup__mobile__media__image {
+    width: 252px !important;
+    height: 342px !important;
+    max-width: none !important;
+    display: block;
     object-fit: cover;
+    object-position: center;
+    border-radius: 4px;
+  }
+
+  .goodr_popup__media__mobile__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 54.15924835205078px;
     display: block;
   }
-  
-  .goodrp__content {
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+
+  .goodr_popup__title {
+    margin-top: 14px;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 20px;
   }
-  
-  .goodrp__title {
-    margin: 0;
-    font-size: 28px;
-    line-height: 1.1;
+
+  .goodr_popup__buttons {
+    gap: 16px;
+    width: 252px;
   }
-  
-  .goodrp__body {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.4;
-    color: rgba(0,0,0,0.75);
+
+  .goodr_popup__cta__button {
+    padding: 7px 67.5px;
+    box-shadow: -2.75px 2.75px 0 0 #0c2340;
   }
-  
-  .goodrp__close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    height: 40px;
-    width: 40px;
-    border: none;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.06);
-    cursor: pointer;
-    font-size: 22px;
-    line-height: 1;
-  }
-  
-  .goodrp__close:focus-visible,
-  .goodrp__button:focus-visible,
-  .goodrp__input:focus-visible {
-    outline: 2px solid #111;
-    outline-offset: 2px;
-  }
-  
-  .goodrp__form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 6px;
-  }
-  
-  .goodrp__label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-  
-  .goodrp__fieldRow {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-  }
-  
-  .goodrp__input {
-    height: 44px;
-    padding: 0 12px;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 10px;
+
+  .goodr_popup__cta__button__text {
+    width: 117px;
+    line-height: 20px;
     font-size: 14px;
+    text-shadow: -1.75px 1.75px 0 #0c2340;
   }
-  
-  .goodrp__button {
-    height: 44px;
-    padding: 0 16px;
-    border: none;
-    border-radius: 10px;
-    background: #111;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
+
+  .goodr_popup__cta__button:hover {
+    transform: none;
+    box-shadow: -4px 4px 0 0 #0c2340;
   }
-  
-  .goodrp__button[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
+
+  .goodr_popup__dismissal__button__text {
+    font-size: 14px;
+    text-decoration-thickness: 0.1px
   }
-  
-  .goodrp__helper {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.35;
-    color: rgba(0,0,0,0.65);
-  }
-  
-  .goodrp__error {
-    margin: 0;
-    font-size: 13px;
-    color: #b00020;
-  }
-  
-  .goodrp__success {
-    margin: 0;
-    font-size: 13px;
-    color: #0b6b2a;
-  }
-  
-  .goodrp__footnote {
-    margin-top: 6px;
-    font-size: 12px;
-    color: rgba(0,0,0,0.6);
-  }
-  
-  /* Responsive: collapse to single column */
-  @media (max-width: 860px) {
-    .goodrp__dialog {
-      grid-template-columns: 1fr;
-    }
-    .goodrp__media {
-      min-height: 200px;
-    }
-  }
-  
-  /* Reduce motion */
-  @media (prefers-reduced-motion: reduce) {
-    .goodrp__dialog {
-      scroll-behavior: auto;
-    }
-  }
-  
+}

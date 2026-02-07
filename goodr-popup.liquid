@@ -6,198 +6,197 @@
 {% endcomment %}
 
 {% if section.settings.enabled %}
-    {{ 'goodr-popup.css' | asset_url | stylesheet_tag }}
-  
-    <section
-      class="goodrp"
-      data-goodrp-root
-      data-goodrp-id="{{ section.id }}"
-      data-enabled="{{ section.settings.enabled }}"
-      data-trigger-type="{{ section.settings.trigger_type }}"
-      data-delay-seconds="{{ section.settings.delay_seconds }}"
-      data-scroll-percent="{{ section.settings.scroll_percent }}"
-      data-exit-intent="{{ section.settings.exit_intent }}"
-      data-dismiss-ttl-days="{{ section.settings.dismiss_ttl_days }}"
-      data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
-      data-debug="{{ section.settings.debug }}"
-      aria-label="Text signup popup"
+  {{ 'goodr-popup.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="goodr_popup"
+    data-goodr-popup-root
+    data-goodr-popup-id="{{ section.id }}"
+    data-enabled="{{ section.settings.enabled }}"
+    data-trigger-type="{{ section.settings.trigger_type }}"
+    data-delay-section="{{ section.settings.delay_seconds }}"
+    data-scroll-percent="{{ section.settings.scroll_percent }}"
+    data-exit-intent="{{ section.settings.exit_intent }}"
+    data-dismiss-ttl-days="{{ section.settings.dismiss_ttl_days }}"
+    data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
+    data-utm-campaign="{{ section.settings.utm_campaign }}"
+    data-debug="{{ section.settings.debug }}"
+    aria-label="5$ OFF offer pop up"
+  >
+    <div
+      class="goodr_popup__content"
+      data-goodr-popup-content
+      role="content"
+      aria-modal="true"
+      aria-labelledby="goodr_popup_title_{{ section.id }}"
+      aria-describedby="goodr_popup_desc_{{ section.id }}"
+      tabindex="-1"
+      hidden
     >
-      <div
-        class="goodrp__overlay"
-        data-goodrp-overlay
-        hidden
-      ></div>
-  
-      <div
-        class="goodrp__dialog"
-        data-goodrp-dialog
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="goodrp-title-{{ section.id }}"
-        aria-describedby="goodrp-desc-{{ section.id }}"
-        tabindex="-1"
-        hidden
-      >
+      {% if section.settings.close_button != blank %}
         <button
-          type="button"
-          class="goodrp__close"
-          data-goodrp-close
+          class="goodr_popup__close__button"
+          data-goodr-popup-close
           aria-label="Close popup"
         >
-          ×
+          {{
+            section.settings.close_button
+            | image_url: width: 20, height: 20
+            | image_tag: loading: 'lazy', class: 'goodr_popup__close__icon', alt: 'Popup close button'
+          }}
         </button>
-  
-        {% if section.settings.image != blank %}
-          <div class="goodrp__media" aria-hidden="true">
-            {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'goodrp__img', alt: '' }}
-          </div>
-        {% endif %}
-  
-        <div class="goodrp__content">
-          <h2 class="goodrp__title" id="goodrp-title-{{ section.id }}">
-            {{ section.settings.title | escape }}
-          </h2>
-  
-          {% if section.settings.body != blank %}
-            <p class="goodrp__body" id="goodrp-desc-{{ section.id }}">
-              {{ section.settings.body }}
-            </p>
-          {% endif %}
-  
-          <form class="goodrp__form" data-goodrp-form novalidate>
-            <label class="goodrp__label" for="goodrp-email-{{ section.id }}">
-              {{ section.settings.email_label | escape }}
-            </label>
-  
-            <div class="goodrp__fieldRow">
-              <input
-                id="goodrp-email-{{ section.id }}"
-                class="goodrp__input"
-                data-goodrp-email
-                type="email"
-                name="email"
-                autocomplete="email"
-                placeholder="{{ section.settings.email_placeholder | escape }}"
-                required
-                inputmode="email"
-              >
-              <button class="goodrp__button" data-goodrp-submit type="submit">
-                {{ section.settings.cta_text | escape }}
-              </button>
-            </div>
-  
-            <p class="goodrp__helper" data-goodrp-helper>
-              {{ section.settings.helper_text }}
-            </p>
-  
-            <p class="goodrp__error" data-goodrp-error role="alert" aria-live="polite" hidden></p>
-            <p class="goodrp__success" data-goodrp-success role="status" aria-live="polite" hidden>
-              {{ section.settings.success_text }}
-            </p>
-          </form>
-  
-          {% if section.settings.footer_note != blank %}
-            <div class="goodrp__footnote">
-              {{ section.settings.footer_note }}
-            </div>
+      {% endif %}
+      {% comment %} Desktop Image {% endcomment %}
+      {% if section.settings.desktop_image != blank %}
+        <div
+          class="goodr_popup__media__desktop"
+          aria-hidden="true"
+        >
+          {{
+            section.settings.desktop_image
+            | image_url: width: 374
+            | image_tag: loading: 'lazy', class: 'goodr_popup__desktop__media__image', alt: 'Annoucement Image'
+          }}
+          {% if section.settings.logo != blank %}
+            {{
+              section.settings.logo
+              | image_url: width: 200
+              | image_tag: loading: 'lazy', class: 'goodr_popup__media__desktop__logo', alt: 'goodr logo'
+            }}
           {% endif %}
         </div>
+      {% endif %}
+
+      {% comment %} Mobile Image {% endcomment %}
+      {% if section.settings.mobile_image != blank %}
+        <div
+          class="goodr_popup__media__mobile"
+          aria-hidden="true"
+        >
+          {{
+            section.settings.mobile_image
+            | image_url: width: 252
+            | image_tag: loading: 'lazy', class: 'goodr_popup__mobile__media__image', alt: 'Annoucement Image'
+          }}
+
+          {% if section.settings.logo != blank %}
+            {{
+              section.settings.logo
+              | image_url: width: 150
+              | image_tag: loading: 'lazy', class: 'goodr_popup__media__mobile__logo', alt: 'goodr logo'
+            }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.title_before != blank %}
+        <h2 class="goodr_popup__title" id="goodr-popup-title-{{ section.id }}">
+          {{ section.settings.title_before }}
+          <span class="goodr_popup__code">{{ section.settings.coupon_code }}</span>
+          {{ section.settings.title_after }}
+        </h2>
+      {% endif %}
+
+      <div class="goodr_popup__buttons">
+        {% if section.settings.cta_text != blank %}
+          <button
+            class="goodr_popup__cta__button"
+            type="submit"
+            data-goodr-popup-submit
+          >
+            <p class="goodr_popup__cta__button__text">{{ section.settings.cta_text }}</p>
+          </button>
+        {% endif %}
+
+        {% if section.settings.dismissal_text != blank %}
+          <button
+            class="goodr_popup__dismissal__button"
+            type="button"
+            data-goodr-popup-dismiss
+          >
+            <p class="goodr_popup__dismissal__button__text">{{ section.settings.dismissal_text }}</p>
+          </button>
+        {% endif %}
       </div>
-    </section>
-  
-    <script src="{{ 'goodr-popup.js' | asset_url }}" defer></script>
-  {% endif %}
-  
-  {% schema %}
-  {
-    "name": "goodr Popup",
-    "settings": [
-      { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
-  
-      { "type": "text", "id": "title", "label": "Title", "default": "Get emails. Get first dibs." },
-      {
-        "type": "richtext",
-        "id": "body",
-        "label": "Body",
-        "default": "<p>Sign up for email updates, drops, and exclusive offers.</p>"
-      },
-  
-      { "type": "image_picker", "id": "image", "label": "Optional image" },
-  
-      { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
-      { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
-      { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "Sign up" },
-  
-      {
-        "type": "richtext",
-        "id": "helper_text",
-        "label": "Helper text",
-        "default": "<p>By signing up, you agree to receive emails. Unsubscribe anytime.</p>"
-      },
-      {
-        "type": "text",
-        "id": "success_text",
-        "label": "Success message",
-        "default": "You're in! Check your inbox for a confirmation."
-      },
-      {
-        "type": "richtext",
-        "id": "footer_note",
-        "label": "Footer note (optional)",
-        "default": "<p>Standard message & data rates may apply for SMS programs.</p>"
-      },
-  
-      {
-        "type": "select",
-        "id": "trigger_type",
-        "label": "Trigger type",
-        "default": "delay",
-        "options": [
-          { "value": "delay", "label": "Time delay" },
-          { "value": "scroll", "label": "Scroll percentage" },
-          { "value": "exit", "label": "Exit intent" },
-          { "value": "manual", "label": "Manual only (use JS API)" }
-        ]
-      },
-      {
-        "type": "range",
-        "id": "delay_seconds",
-        "label": "Delay (seconds)",
-        "min": 0,
-        "max": 60,
-        "step": 1,
-        "default": 5
-      },
-      {
-        "type": "range",
-        "id": "scroll_percent",
-        "label": "Scroll trigger (%)",
-        "min": 5,
-        "max": 95,
-        "step": 5,
-        "default": 35
-      },
-      { "type": "checkbox", "id": "exit_intent", "label": "Enable exit intent trigger (desktop)", "default": true },
-  
-      {
-        "type": "range",
-        "id": "dismiss_ttl_days",
-        "label": "Dismiss persistence (days)",
-        "min": 1,
-        "max": 90,
-        "step": 1,
-        "default": 14
-      },
-      {
-        "type": "checkbox",
-        "id": "show_once_per_ttl",
-        "label": "Show at most once per TTL (even if not dismissed)",
-        "default": true
-      },
-  
-      { "type": "checkbox", "id": "debug", "label": "Debug logging", "default": false }
-    ],
-    "presets": [{ "name": "goodr Popup" }]
-  }
-  {% endschema %}
-  
+    </div>
+  </section>
+{% endif %}
+
+<script src="{{ 'goodr-popup.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "goodr Popup",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+    { "type": "image_picker", "id": "close_button", "label": "Popup close icon" },
+
+    { "type": "image_picker", "id": "desktop_image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+
+    { "type": "text", "id": "title_before", "label": "Title (before code)", "default": "USE CODE" },
+    { "type": "text", "id": "coupon_code", "label": "Coupon code", "default": "GOODR5" },
+    { "type": "text", "id": "title_after", "label": "Title (after code)", "default": "FOR $5 OFF YOUR FIRST ORDER" },
+
+    { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "SHOP ALL STYLES" },
+    { "type": "text", "id": "dismissal_text", "label": "Dismissal button text", "default": "NAH, I HATE DEALS" },
+
+    {
+      "type": "select",
+      "id": "trigger_type",
+      "label": "Trigger type",
+      "default": "delay",
+      "options": [
+        { "value": "delay", "label": "Time delay" },
+        { "value": "scroll", "label": "Page Scroll Percentage" },
+        { "value": "exit", "label": "Exit intent" },
+        { "value": "utm", "label": "UTM Campaign match" }
+      ]
+    },
+
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "label": "Delay (seconds)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "scroll_percent",
+      "label": "Scroll Trigger (%)",
+      "min": 5,
+      "max": 95,
+      "step": 5,
+      "default": 35
+    },
+
+    { "type": "checkbox", "id": "exit_intent", "label": "Enable exit intent trigger (desktop)", "default": true },
+
+    { "type": "text", "id": "utm_campaign", "label": "UTM campaign match" },
+
+    {
+      "type": "range",
+      "id": "dismiss_ttl_days",
+      "label": "Dismiss persistence (days)",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "default": 1
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_once_per_ttl",
+      "label": "Show at most once per TTL (even if not dismissed)",
+      "default": true
+    },
+
+    { "type": "checkbox", "id": "debug", "label": "Debug logging", "default": false }
+  ],
+  "presets": [{ "name": "goodr Popup" }]
+}
+{% endschema %}
