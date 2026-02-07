@@ -14,7 +14,7 @@ This popup is production-ready and demo-friendly, supporting multiple trigger ty
 
 ### Deck Link
 
-- 
+- https://docs.google.com/presentation/d/10_E-iCOSgreRfYMOKL3tt2gYRQqWXYgDmzb0gwokuuU/edit?usp=sharing
 
 
 ## Features
@@ -62,7 +62,6 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 
 - In **Sections**, click **Add a new section**
 - Select : goodr-popup.liquid
-
 - Paste the full `goodr-popup.liquid` code
 - Save
 - This section already loads its CSS and JS automatically:
@@ -74,7 +73,7 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 - Click Add a new asset
 - Choose Create a blank file
 - Name it: goodr-popup.css
-- Paste the full CSS
+- Paste the full `goodr-popup.css` code
 - Save
 
 ### 4. Add the JavaScript File
@@ -83,7 +82,7 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 - Click Add a new asset
 - Choose Create a blank file
 - Name it: goodr-popup.js
-- Paste the full JavaScript
+- Paste the full `goodr-popup.js` code
 - Save
 
 ### 5. Adding the Popup to a Page
@@ -183,8 +182,6 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 
 - Scroll position is restored exactly where the user left off
 
-
-
 ### Troubleshooting
 
 ## Popup does not appear
@@ -196,10 +193,11 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 - Confirm URL uses utm_campaign (underscore, not dash)
 - Confirm the value exactly matches the section setting
 
-### Popup only shows once
+## Popup only shows once
 
 - It may be blocked by TTL rules
 - In debug mode, run: goodrPopupReset()
+
 
 ### Customization
 
@@ -215,8 +213,16 @@ Shopify Admin → **Online Store** → **Themes** → (Active theme) → **⋯**
 
 
 ### Optional Future Enhancements
+
 - Overlay click-to-close
 - ESC key close + focus trapping (accessibility)
 - Multiple UTM campaign matches
 - Analytics events (view, dismiss, CTA)
 
+### Tradeoffs & Decisions
+
+- Theme-based implementation vs app
+- Client-side state vs server-side persistence.
+- CTA-only popup vs email capture
+- Event tracking stub vs live integrations
+- Single-trigger execution per page load
