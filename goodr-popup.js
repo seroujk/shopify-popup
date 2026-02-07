@@ -7,12 +7,7 @@ function utmMatchesRequired(root, debug) {
   const required = (root.dataset.utmCampaign || "").trim();
   const actual = getUtmCampaignFromUrl();
 
-  debug(
-    "UTM check → required:",
-    required || "(none)",
-    "| actual:",
-    actual || "(none)"
-  );
+  debug("UTM check → required:", required || "(none)", "| actual:", actual || "(none)");
 
   if (!required) return false;
   if (!actual) return false;
@@ -77,6 +72,40 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("[goodr popup]", ...args);
   };
 
+  // Integration stub (event logging + where real integrations would live)
+  function trackPopupEvent(eventName, data = {}) {
+    const payload = {
+      event: eventName,
+      component: "goodr_popup",
+      popupId: root.dataset.goodrPopupId || "unknown",
+      triggerType: root.dataset.triggerType || null,
+      utmCampaign: getUtmCampaignFromUrl() || null,
+      timestamp: Date.now(),
+      ...data,
+    };
+
+    // For demo / QA proof
+    debug("[event]", payload);
+
+    /*
+      REAL INTEGRATIONS WOULD LIVE HERE:
+
+      // Google Tag Manager / GA4
+      window.dataLayer?.push(payload);
+      // or: gtag?.('event', eventName, data);
+
+      // Meta Pixel
+      // fbq?.('trackCustom', eventName, data);
+
+      // Shopify App Proxy / Backend endpoint
+      // fetch('/apps/popup-events', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(payload)
+      // });
+    */
+  }
+
   debug("initialized");
 
   const popUp = root.querySelector(".goodr_popup__content");
@@ -117,12 +146,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // 1) If dismissed within TTL → block
   if (isWithinTtl(dismissedAt, ttlMs)) {
     debug("blocked: dismissed within TTL");
+    trackPopupEvent("popup_blocked", { reason: "dismissed_within_ttl" });
     return;
   }
 
   // 2) If show-once-per-TTL is enabled and it was shown within TTL → block
   if (showOncePerTtl && isWithinTtl(shownAt, ttlMs)) {
     debug("blocked: already shown within TTL");
+    trackPopupEvent("popup_blocked", { reason: "shown_within_ttl" });
     return;
   }
 
@@ -147,27 +178,34 @@ document.addEventListener("DOMContentLoaded", () => {
     popUp.hidden = false;
     hasShown = true;
 
-    // ✅ freeze page scroll while popup is open
+    // Freeze page scroll while popup is open
     lockBodyScroll(debug);
 
-    // record "shown" so show_once_per_ttl works
+    // Record "shown" so show_once_per_ttl works
     localStorage.setItem(shownAtKey, String(Date.now()));
+
+    // Log event
+    trackPopupEvent("popup_viewed");
   };
 
-  const dismissPopup = () => {
-    debug("popup dismissed");
+  // Accept a method so we know *how* it was dismissed
+  const dismissPopup = (method = "unknown") => {
+    debug("popup dismissed:", method);
     popUp.hidden = true;
 
-    // ✅ unfreeze page scroll when popup closes
+    // Unfreeze page scroll when popup closes
     unlockBodyScroll(debug);
 
-    // record dismissal so dismiss_ttl_days works
+    //Record dismissal so dismiss_ttl_days works
     localStorage.setItem(dismissedAtKey, String(Date.now()));
+
+    //Log event
+    trackPopupEvent("popup_dismissed", { method });
   };
 
-  if (ctaBtn) ctaBtn.addEventListener("click", dismissPopup);
-  if (dismissBtn) dismissBtn.addEventListener("click", dismissPopup);
-  if (closeBtn) closeBtn.addEventListener("click", dismissPopup);
+  if (ctaBtn) ctaBtn.addEventListener("click", () => dismissPopup("cta"));
+  if (dismissBtn) dismissBtn.addEventListener("click", () => dismissPopup("dismiss_button"));
+  if (closeBtn) closeBtn.addEventListener("click", () => dismissPopup("close_button"));
 
   // TRIGGER TYPE: UTM
   if (triggerType === "utm") {
@@ -176,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showPopupOnce();
     } else {
       debug("UTM trigger did not match — popup not shown");
+      trackPopupEvent("popup_not_shown", { reason: "utm_no_match" });
     }
     return;
   }
