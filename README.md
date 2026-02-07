@@ -6,6 +6,17 @@ This popup is production-ready and demo-friendly, supporting multiple trigger ty
 
 ---
 
+### Figma Link
+- https://www.figma.com/design/T5WoIoi7eGP2B46g9U0Scp/Digital-Developer-Assignment?node-id=0-1&p=f&t=IWnke5ZID7JxhI25-0
+
+### Assets Link
+- https://drive.google.com/drive/folders/12xJH6lZ5pUpHJw2f1d79AI0qW0YvnVPI?usp=drive_link
+
+### Deck Link
+
+- 
+
+
 ## Features
 
 - **Trigger Types**
