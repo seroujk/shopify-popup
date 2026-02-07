@@ -50,7 +50,7 @@
   position: relative;
 }
 
-.goodr_popup__media__mobile {
+.goodr_popup__media__mobile{
   display: none;
 }
 
@@ -108,7 +108,7 @@
 
 .goodr_popup__cta__button {
   padding: 12px 112px;
-  border: 1px solid #0c2340;
+  border: 1px solid #0C2340;
   background: #ede939;
   border-radius: 25px;
   color: #ffffff;
@@ -187,7 +187,7 @@
     position: relative;
   }
 
-  .goodr_popup__media__desktop {
+  .goodr_popup__media__desktop{
     display: none;
   }
 
@@ -250,6 +250,6 @@
 
   .goodr_popup__dismissal__button__text {
     font-size: 14px;
-    text-decoration-thickness: 0.1px;
+    text-decoration-thickness: 0.1px
   }
 }
