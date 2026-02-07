@@ -84,25 +84,25 @@ document.addEventListener("DOMContentLoaded", () => {
       ...data,
     };
 
-    // For demo / QA proof
+    // For demo 
     debug("[event]", payload);
 
     /*
       REAL INTEGRATIONS WOULD LIVE HERE:
 
-      // Google Tag Manager / GA4
+       Google Tag Manager / GA4
       window.dataLayer?.push(payload);
-      // or: gtag?.('event', eventName, data);
+      or: gtag?.('event', eventName, data);
 
-      // Meta Pixel
-      // fbq?.('trackCustom', eventName, data);
+       Meta Pixel
+      fbq?.('trackCustom', eventName, data);
 
-      // Shopify App Proxy / Backend endpoint
-      // fetch('/apps/popup-events', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(payload)
-      // });
+      Shopify App Proxy / Backend endpoint
+       fetch('/apps/popup-events', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(payload)
+       });
     */
   }
 
