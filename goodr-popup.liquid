@@ -16,7 +16,6 @@
     data-trigger-type="{{ section.settings.trigger_type }}"
     data-delay-section="{{ section.settings.delay_seconds }}"
     data-scroll-percent="{{ section.settings.scroll_percent }}"
-    data-exit-intent="{{ section.settings.exit_intent }}"
     data-dismiss-ttl-days="{{ section.settings.dismiss_ttl_days }}"
     data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
     data-utm-campaign="{{ section.settings.utm_campaign }}"
@@ -128,20 +127,16 @@
 {
   "name": "goodr Popup",
   "settings": [
-    { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+    { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": false },
     { "type": "image_picker", "id": "close_button", "label": "Popup close icon" },
-
     { "type": "image_picker", "id": "desktop_image", "label": "Desktop image" },
     { "type": "image_picker", "id": "mobile_image", "label": "Mobile image" },
     { "type": "image_picker", "id": "logo", "label": "Logo" },
-
     { "type": "text", "id": "title_before", "label": "Title (before code)", "default": "USE CODE" },
     { "type": "text", "id": "coupon_code", "label": "Coupon code", "default": "GOODR5" },
     { "type": "text", "id": "title_after", "label": "Title (after code)", "default": "FOR $5 OFF YOUR FIRST ORDER" },
-
     { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "SHOP ALL STYLES" },
     { "type": "text", "id": "dismissal_text", "label": "Dismissal button text", "default": "NAH, I HATE DEALS" },
-
     {
       "type": "select",
       "id": "trigger_type",
@@ -154,11 +149,10 @@
         { "value": "utm", "label": "UTM Campaign match" }
       ]
     },
-
     {
       "type": "range",
       "id": "delay_seconds",
-      "label": "Delay (seconds)",
+      "label": "Time Delay (seconds)",
       "min": 0,
       "max": 60,
       "step": 1,
@@ -173,11 +167,7 @@
       "step": 5,
       "default": 35
     },
-
-    { "type": "checkbox", "id": "exit_intent", "label": "Enable exit intent trigger (desktop)", "default": true },
-
     { "type": "text", "id": "utm_campaign", "label": "UTM campaign match" },
-
     {
       "type": "range",
       "id": "dismiss_ttl_days",
@@ -187,14 +177,12 @@
       "step": 1,
       "default": 1
     },
-
     {
       "type": "checkbox",
       "id": "show_once_per_ttl",
       "label": "Show at most once per TTL (even if not dismissed)",
       "default": true
     },
-
     { "type": "checkbox", "id": "debug", "label": "Debug logging", "default": false }
   ],
   "presets": [{ "name": "goodr Popup" }]

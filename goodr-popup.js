@@ -90,19 +90,19 @@ document.addEventListener("DOMContentLoaded", () => {
     /*
       REAL INTEGRATIONS WOULD LIVE HERE:
 
-       Google Tag Manager / GA4
-      window.dataLayer?.push(payload);
-      or: gtag?.('event', eventName, data);
+      Google Tag Manager / GA4
+        window.dataLayer?.push(payload);
+          or: gtag?.('event', eventName, data);
 
-       Meta Pixel
-      fbq?.('trackCustom', eventName, data);
+      Meta Pixel
+        fbq?.('trackCustom', eventName, data);
 
       Shopify App Proxy / Backend endpoint
-       fetch('/apps/popup-events', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(payload)
-       });
+        fetch('/apps/popup-events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
     */
   }
 
@@ -143,14 +143,14 @@ document.addEventListener("DOMContentLoaded", () => {
     shownAt: shownAt || null,
   });
 
-  // 1) If dismissed within TTL → block
+  // 1) If dismissed within TTL then block popup
   if (isWithinTtl(dismissedAt, ttlMs)) {
     debug("blocked: dismissed within TTL");
     trackPopupEvent("popup_blocked", { reason: "dismissed_within_ttl" });
     return;
   }
 
-  // 2) If show-once-per-TTL is enabled and it was shown within TTL → block
+  // 2) If show-once-per-TTL is enabled and it was shown within TTL then block popup
   if (showOncePerTtl && isWithinTtl(shownAt, ttlMs)) {
     debug("blocked: already shown within TTL");
     trackPopupEvent("popup_blocked", { reason: "shown_within_ttl" });
