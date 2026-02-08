@@ -22,8 +22,8 @@ function utmMatchesRequired(root, debug) {
 // Debug mode demo: 1 "day" = 10 seconds
 function daysToMs(days, debugEnabled) {
   const d = Number(days) || 0;
-  if (debugEnabled) return d * 10 * 1000; // demo-friendly
-  return d * 24 * 60 * 60 * 1000; // real-life
+  if (debugEnabled) return d * 10 * 1000; // during scenario
+  return d * 24 * 60 * 60 * 1000; // real-life scenario
 }
 
 function storageKey(root, name) {
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Optional demo helper: reset TTL quickly from console when debug is on
+  // Demo helper: reset TTL quickly from console when debug is on
   if (debugEnabled) {
     window.goodrPopupReset = () => {
       localStorage.removeItem(dismissedAtKey);
