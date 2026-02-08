@@ -96,7 +96,6 @@ Simplifies behavior and avoids conflicts.
 
 ## What I’d Improve With More Time
 
-- Keyboard + accessibility enhancements (ESC close, focus trapping)
 - Overlay click-to-close option
 - Support for multiple UTM campaign values
 - Server-side or app-backed persistence for cross-device behavior

@@ -20,12 +20,12 @@
     data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
     data-utm-campaign="{{ section.settings.utm_campaign }}"
     data-debug="{{ section.settings.debug }}"
-    aria-label="5$ OFF offer pop up"
+    aria-label="$5 OFF offer pop up"
   >
     <div
       class="goodr_popup__content"
       data-goodr-popup-content
-      role="content"
+      role="dialog"
       aria-modal="true"
       aria-labelledby="goodr_popup_title_{{ section.id }}"
       aria-describedby="goodr_popup_desc_{{ section.id }}"
@@ -37,6 +37,7 @@
           class="goodr_popup__close__button"
           data-goodr-popup-close
           aria-label="Close popup"
+          type="button"
         >
           {{
             section.settings.close_button
@@ -45,6 +46,7 @@
           }}
         </button>
       {% endif %}
+
       {% comment %} Desktop Image {% endcomment %}
       {% if section.settings.desktop_image != blank %}
         <div
@@ -54,7 +56,7 @@
           {{
             section.settings.desktop_image
             | image_url: width: 374
-            | image_tag: loading: 'lazy', class: 'goodr_popup__desktop__media__image', alt: 'Annoucement Image'
+            | image_tag: loading: 'lazy', class: 'goodr_popup__desktop__media__image', alt: ''
           }}
           {% if section.settings.logo != blank %}
             {{
@@ -75,7 +77,7 @@
           {{
             section.settings.mobile_image
             | image_url: width: 252
-            | image_tag: loading: 'lazy', class: 'goodr_popup__mobile__media__image', alt: 'Annoucement Image'
+            | image_tag: loading: 'lazy', class: 'goodr_popup__mobile__media__image', alt: ''
           }}
 
           {% if section.settings.logo != blank %}
@@ -89,18 +91,29 @@
       {% endif %}
 
       {% if section.settings.title_before != blank %}
-        <h2 class="goodr_popup__title" id="goodr-popup-title-{{ section.id }}">
+        <h2 class="goodr_popup__title" id="goodr_popup_title_{{ section.id }}">
           {{ section.settings.title_before }}
           <span class="goodr_popup__code">{{ section.settings.coupon_code }}</span>
           {{ section.settings.title_after }}
         </h2>
+
+        {%- comment -%}
+          Screen-reader-only description so aria-describedby points to a real node.
+          Uses an inline style to avoid requiring CSS changes.
+        {%- endcomment -%}
+        <p
+          id="goodr_popup_desc_{{ section.id }}"
+          style="position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important;"
+        >
+          Use code {{ section.settings.coupon_code }} at checkout to receive $5 off your first order.
+        </p>
       {% endif %}
 
       <div class="goodr_popup__buttons">
         {% if section.settings.cta_text != blank %}
           <button
             class="goodr_popup__cta__button"
-            type="submit"
+            type="button"
             data-goodr-popup-submit
           >
             <p class="goodr_popup__cta__button__text">{{ section.settings.cta_text }}</p>

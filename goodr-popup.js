@@ -62,6 +62,64 @@ function unlockBodyScroll(debug) {
   debug && debug("body scroll unlocked, restored Y:", __goodrScrollY);
 }
 
+/*A11Y HELPERS (modal focus) */
+
+function getFocusableElements(container) {
+  const selectors = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+  ];
+
+  return Array.from(container.querySelectorAll(selectors.join(","))).filter((el) => {
+    if (el.hasAttribute("hidden")) return false;
+    // offsetParent null catches display:none elements
+    return el.offsetParent !== null;
+  });
+}
+
+function trapFocus(modal, onEscape) {
+  function onKeyDown(e) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      onEscape && onEscape();
+      return;
+    }
+
+    if (e.key !== "Tab") return;
+
+    const focusables = getFocusableElements(modal);
+
+    // If nothing focusable, keep focus on modal
+    if (focusables.length === 0) {
+      e.preventDefault();
+      modal.focus({ preventScroll: true });
+      return;
+    }
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus({ preventScroll: true });
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  modal.addEventListener("keydown", onKeyDown);
+  return () => modal.removeEventListener("keydown", onKeyDown);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.querySelector("[data-goodr-popup-root]");
   if (!root) return;
@@ -84,10 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ...data,
     };
 
-    // For demo 
+    // For demo
     debug("[event]", payload);
 
-    /*
+     /*
       REAL INTEGRATIONS WOULD LIVE HERE:
 
       Google Tag Manager / GA4
@@ -169,12 +227,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let hasShown = false;
 
+  // A11Y state
+  let lastActiveElement = null;
+  let cleanupFocusTrap = null;
+
   const showPopupOnce = () => {
     if (hasShown) {
       debug("popup already shown — skipping");
       return;
     }
+
     debug("showing popup");
+    lastActiveElement = document.activeElement;
+
     popUp.hidden = false;
     hasShown = true;
 
@@ -186,6 +251,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Log event
     trackPopupEvent("popup_viewed");
+
+    // A11Y: focus into dialog + trap focus + escape closes
+    const focusTarget = closeBtn || popUp;
+    focusTarget.focus({ preventScroll: true });
+
+    cleanupFocusTrap = trapFocus(popUp, () => dismissPopup("escape_key"));
   };
 
   // Accept a method so we know *how* it was dismissed
@@ -193,14 +264,25 @@ document.addEventListener("DOMContentLoaded", () => {
     debug("popup dismissed:", method);
     popUp.hidden = true;
 
+    // A11Y: remove focus trap
+    if (cleanupFocusTrap) {
+      cleanupFocusTrap();
+      cleanupFocusTrap = null;
+    }
+
     // Unfreeze page scroll when popup closes
     unlockBodyScroll(debug);
 
-    //Record dismissal so dismiss_ttl_days works
+    // Record dismissal so dismiss_ttl_days works
     localStorage.setItem(dismissedAtKey, String(Date.now()));
 
-    //Log event
+    // Log event
     trackPopupEvent("popup_dismissed", { method });
+
+    // A11Y: restore focus to opener
+    if (lastActiveElement && typeof lastActiveElement.focus === "function") {
+      lastActiveElement.focus({ preventScroll: true });
+    }
   };
 
   if (ctaBtn) ctaBtn.addEventListener("click", () => dismissPopup("cta"));
