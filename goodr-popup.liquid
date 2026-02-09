@@ -14,7 +14,7 @@
     data-goodr-popup-id="{{ section.id }}"
     data-enabled="{{ section.settings.enabled }}"
     data-trigger-type="{{ section.settings.trigger_type }}"
-    data-delay-section="{{ section.settings.delay_seconds }}"
+    data-delay-seconds="{{ section.settings.delay_seconds }}"
     data-scroll-percent="{{ section.settings.scroll_percent }}"
     data-dismiss-ttl-days="{{ section.settings.dismiss_ttl_days }}"
     data-show-once-per-ttl="{{ section.settings.show_once_per_ttl }}"
@@ -164,7 +164,7 @@
       "options": [
         { "value": "delay", "label": "Time delay" },
         { "value": "scroll", "label": "Page Scroll Percentage" },
-        { "value": "exit", "label": "Exit intent" },
+        { "value": "exit", "label": "Exit intent (desktop only)" },
         { "value": "utm", "label": "UTM Campaign match" }
       ]
     },
@@ -190,7 +190,7 @@
     {
       "type": "range",
       "id": "dismiss_ttl_days",
-      "label": "Do not show again for (days)",
+      "label": "After dismissal do not show again for (days)",
       "min": 0,
       "max": 90,
       "step": 1,

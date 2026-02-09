@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // TRIGGER TYPE: DELAY
   if (triggerType === "delay") {
-    const delaySeconds = Number(root.dataset.delaySection || 0);
+    const delaySeconds = Number(root.dataset.delaySeconds || 0);
     debug("delay trigger set:", delaySeconds, "seconds");
 
     setTimeout(() => {
