@@ -8,8 +8,20 @@
   font-weight: 900;
 }
 
+.goodr_popup__overlay[hidden] {
+  display: none !important;
+}
+
+.goodr_popup__overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 0;
+}
+
 .goodr_popup__content[hidden] {
   display: none !important;
+  z-index: 99999;
 }
 
 .goodr_popup__content {
@@ -36,6 +48,7 @@
   top: 21.71px;
   right: 22.96px;
   padding: 0;
+  cursor: pointer;
 }
 
 .goodr_popup__close__icon {
@@ -108,7 +121,7 @@
 
 .goodr_popup__cta__button {
   padding: 12px 112px;
-  border: 1px solid #0c2340;
+  border: 2px solid #0c2340;
   background: #ede939;
   border-radius: 25px;
   color: #ffffff;
@@ -116,6 +129,7 @@
   /* button transition */
   transition: transform 160ms ease, box-shadow 300ms ease;
   will-change: transform, box-shadow;
+  cursor: pointer;
 }
 
 .goodr_popup__cta__button__text {
@@ -142,6 +156,7 @@
 .goodr_popup__dismissal__button {
   background: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .goodr_popup__dismissal__button__text {
@@ -261,6 +276,7 @@
   .goodr_popup__cta__button {
     padding: 7px 67.5px;
     box-shadow: -2.75px 2.75px 0 0 #0c2340;
+    border: 1.5px solid #0c2340;
   }
 
   .goodr_popup__cta__button__text {

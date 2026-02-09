@@ -96,7 +96,6 @@ Simplifies behavior and avoids conflicts.
 
 ## What I’d Improve With More Time
 
-- Overlay click-to-close option
 - Support for multiple UTM campaign values
 - Server-side or app-backed persistence for cross-device behavior
 - Live analytics integrations (GA4, Meta, or backend endpoint)
@@ -106,5 +105,6 @@ Simplifies behavior and avoids conflicts.
 ## Notes
 
 - CTA clicks are treated as dismissals by default
+- Overlay clicks are treated as dismissals by default
 - Exit intent is desktop-focused
 - All logic is dependency-free vanilla JavaScript

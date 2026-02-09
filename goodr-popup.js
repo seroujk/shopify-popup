@@ -7,7 +7,12 @@ function utmMatchesRequired(root, debug) {
   const required = (root.dataset.utmCampaign || "").trim();
   const actual = getUtmCampaignFromUrl();
 
-  debug("UTM check → required:", required || "(none)", "| actual:", actual || "(none)");
+  debug(
+    "UTM check → required:",
+    required || "(none)",
+    "| actual:",
+    actual || "(none)"
+  );
 
   if (!required) return false;
   if (!actual) return false;
@@ -66,19 +71,21 @@ function unlockBodyScroll(debug) {
 
 function getFocusableElements(container) {
   const selectors = [
-    'a[href]',
-    'button:not([disabled])',
-    'input:not([disabled])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
     '[tabindex]:not([tabindex="-1"])',
   ];
 
-  return Array.from(container.querySelectorAll(selectors.join(","))).filter((el) => {
-    if (el.hasAttribute("hidden")) return false;
-    // offsetParent null catches display:none elements
-    return el.offsetParent !== null;
-  });
+  return Array.from(container.querySelectorAll(selectors.join(","))).filter(
+    (el) => {
+      if (el.hasAttribute("hidden")) return false;
+      // offsetParent null catches display:none elements
+      return el.offsetParent !== null;
+    }
+  );
 }
 
 function trapFocus(modal, onEscape) {
@@ -145,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // For demo
     debug("[event]", payload);
 
-     /*
+    /*
       REAL INTEGRATIONS WOULD LIVE HERE:
 
       Google Tag Manager / GA4
@@ -167,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
   debug("initialized");
 
   const popUp = root.querySelector(".goodr_popup__content");
+  const overlay = root.querySelector(".goodr_popup__overlay");
   const closeBtn = root.querySelector(".goodr_popup__close__button");
   const ctaBtn = root.querySelector(".goodr_popup__cta__button");
   const dismissBtn = root.querySelector(".goodr_popup__dismissal__button");
@@ -241,6 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lastActiveElement = document.activeElement;
 
     popUp.hidden = false;
+    if (overlay) overlay.hidden = false;
     hasShown = true;
 
     // Freeze page scroll while popup is open
@@ -263,6 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const dismissPopup = (method = "unknown") => {
     debug("popup dismissed:", method);
     popUp.hidden = true;
+    if (overlay) overlay.hidden = true;
 
     // A11Y: remove focus trap
     if (cleanupFocusTrap) {
@@ -286,8 +296,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   if (ctaBtn) ctaBtn.addEventListener("click", () => dismissPopup("cta"));
-  if (dismissBtn) dismissBtn.addEventListener("click", () => dismissPopup("dismiss_button"));
-  if (closeBtn) closeBtn.addEventListener("click", () => dismissPopup("close_button"));
+  if (dismissBtn)
+    dismissBtn.addEventListener("click", () => dismissPopup("dismiss_button"));
+  if (closeBtn)
+    closeBtn.addEventListener("click", () => dismissPopup("close_button"));
+  if (overlay) {
+    overlay.addEventListener("click", () => dismissPopup("overlay"));
+  }
 
   // TRIGGER TYPE: UTM
   if (triggerType === "utm") {
